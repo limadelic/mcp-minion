@@ -3,3 +3,5 @@ dist/
 .DS_Store
 *.log
 .env
+.idea/
+docs/servers/
