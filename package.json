@@ -1,11 +1,11 @@
 {
   "name": "mcp-minion",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "Minimal MCP client that follows the official protocol spec exactly",
   "type": "module",
   "main": "dist/index.js",
   "bin": {
-    "minion": "dist/index.js"
+    "oo": "dist/index.js"
   },
   "files": [
     "dist",

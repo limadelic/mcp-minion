@@ -4,6 +4,7 @@ import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
 import fs from 'fs';
 import path from 'path';
+import { docs } from './help.js';
 
 const args = process.argv.slice(2);
 let server, command, rest;
@@ -21,7 +22,10 @@ if (fs.existsSync(configPath)) {
 }
 
 // Handle command parsing
-if (args[0] === 'servers') {
+if (args[0] === 'docs') {
+  docs();
+  process.exit(0);
+} else if (args[0] === 'servers') {
   // List available servers
   const serverNames = Object.keys(mcpServers);
   if (serverNames.length) {
@@ -56,7 +60,7 @@ async function main() {
     await client.connect(transport);
     
     try {
-      if (command === 'list') {
+      if (command === 'tools') {
         // List tools
         const result = await client.listTools();
         for (const tool of result.tools) {
