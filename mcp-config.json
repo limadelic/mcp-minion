@@ -1,8 +1,8 @@
 {
   "mcpServers": {
     "filesystem": {
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-filesystem", "/Users/mike/dev/mcp-minion"]
+      "command": "node",
+      "args": ["./node_modules/@modelcontextprotocol/server-filesystem/dist/index.js", "."]
     }
   }
 }
