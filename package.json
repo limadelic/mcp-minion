@@ -5,7 +5,7 @@
   "type": "module",
   "main": "dist/index.js",
   "bin": {
-    "mcp-minion": "dist/index.js"
+    "minion": "dist/index.js"
   },
   "files": [
     "dist",
@@ -31,5 +31,8 @@
   "devDependencies": {
     "@types/node": "^22",
     "typescript": "^5.3.3"
+  },
+  "engines": {
+    "node": ">=18"
   }
 }

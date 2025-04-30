@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "outDir": "./dist",
-    "rootDir": ".",
+    "rootDir": "./src",
     "moduleResolution": "NodeNext",
     "module": "NodeNext",
     "target": "ES2020",
@@ -12,5 +12,6 @@
     "forceConsistentCasingInFileNames": true,
     "allowSyntheticDefaultImports": true
   },
-  "include": ["./**/*.ts"]
+  "include": ["./src/**/*.ts"],
+  "exclude": ["docs/**/*", "node_modules", "dist"]
 }
