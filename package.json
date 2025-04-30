@@ -9,6 +9,7 @@
   },
   "files": [
     "dist",
+    "docs/mcp",
     "README.md"
   ],
   "scripts": {

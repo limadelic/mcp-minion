@@ -1,7 +1,13 @@
+import fs from 'fs';
+
+function read(file) {
+  console.log(fs.readFileSync(new URL(file, import.meta.url), 'utf8'));
+}
+
+export function help() {
+  read('../README.md');
+}
+
 export function docs() {
-  console.log('MCP Minion - Minimal client for Model Context Protocol servers');
-  console.log('\nUsage:');
-  console.log('  oo servers              - List available MCP servers from config');
-  console.log('  oo <server> tools       - List available tools on <server>');
-  console.log('  oo <server> call <tool> <json-args> - Call tool with arguments');
+  read('../docs/mcp/client.md');
 }

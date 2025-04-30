@@ -4,12 +4,15 @@ import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
 import fs from 'fs';
 import path from 'path';
-import { docs } from './help.js';
+import { docs, help } from './help.js';
 
 const args = process.argv.slice(2);
 let server, command, rest;
 
-if (args.length === 0) process.exit(0);
+if (args.length === 0) {
+  help();
+  process.exit(0);
+}
 
 const configPath = process.env.MCP_CONFIG || path.join(process.cwd(), 'mcp-config.json');
 let mcpServers = {};
