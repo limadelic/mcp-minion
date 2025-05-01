@@ -6,10 +6,7 @@ export async function connect(server: string, command: string, args: string[]) {
   try {
     const serverConfig = mcpServers[server];
     
-    // For the dir command, only show server name as header
-    if (command === 'tools' && process.argv[2] === 'dir') {
-      console.log(`\n${server.toUpperCase()}`);
-    }
+    console.log(`\n${server}:\n`);
     
     const client = new Client({ name: "mcp-minion", version: "0.1.4" }, { capabilities: {} });
     const transport = new StdioClientTransport(serverConfig);
