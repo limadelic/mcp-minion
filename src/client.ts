@@ -19,14 +19,12 @@ export async function connect(server: string, command: string, args: string[]) {
         for (const tool of result.tools) {
           console.log(tool.name);
         }
-      } else if (command === 'call' && args.length > 0) {
-
-        const toolName = args[0];
-        const toolArgs = args.length > 1 ? JSON.parse(args[1]) : {};
+      } else {
+        const toolName = command;
+        const toolArgs = args.length > 0 ? JSON.parse(args[0]) : {};
         
         const result = await client.callTool({ name: toolName, arguments: toolArgs });
         
-
         const content = result?.content as Array<any> || [];
         for (const item of content) {
           if (item?.type === 'text' && item.text) {

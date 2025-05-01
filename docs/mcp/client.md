@@ -12,9 +12,9 @@ oo servers
 oo <server> tools
 ```
 
-## Call a tool
+## Use a tool
 
-After discovery, call the tool you need:
+After discovery, use the tool you need:
 ```
-oo <server> call <tool> '<json-args>'
+oo <server> <tool> '<json-args>'
 ```
