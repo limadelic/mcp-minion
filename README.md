@@ -14,5 +14,5 @@ npm install -g mcp-minion
 oo docs                 - Show Model Context Protocol documentation
 oo servers              - List available MCP servers from config
 oo <server> tools       - List available tools on <server>
-oo <server> call <tool> <json-args> - Call tool with arguments
+oo <server> <tool> <json-args> - Use tool with arguments
 ```
