@@ -5,17 +5,20 @@ const cmd = args.length === 0 ? 'help' : args[0];
 const servers = Object.keys(mcpServers);
 
 const cmds = ['help', 'docs', 'servers'];
+const isCmd = cmds.includes(cmd);
 const isServer = servers.includes(cmd);
 
-const result = cmds.includes(cmd)
+const result = isCmd
   ? { cmd }
-  : {
-      cmd: 'run',
-      args: {
-        server: isServer ? cmd : servers[0],
-        command: isServer ? args[1] : cmd,
-        args: isServer ? args.slice(2) : args.slice(1)
-      }
-    };
+  : !isServer 
+    ? { cmd: 'help' }
+    : {
+        cmd: 'run',
+        args: {
+          server: cmd,
+          command: args[1],
+          args: args.slice(2)
+        }
+      };
 
 export default result;
