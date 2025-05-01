@@ -29,7 +29,8 @@
   "license": "MIT",
   "dependencies": {
     "@modelcontextprotocol/sdk": "0.5.0",
-    "@modelcontextprotocol/server-filesystem": "latest"
+    "@modelcontextprotocol/server-filesystem": "latest",
+    "mongodb-mcp-server": "^0.1.0"
   },
   "devDependencies": {
     "@types/node": "^22",

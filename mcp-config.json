@@ -2,7 +2,20 @@
   "mcpServers": {
     "filesystem": {
       "command": "npx",
-      "args": ["--yes", "@modelcontextprotocol/server-filesystem", "."]
+      "args": [
+        "--yes", 
+        "@modelcontextprotocol/server-filesystem", 
+        "."
+      ]
+    },
+    "mongodb": {
+      "command": "npx",
+      "args": [
+        "-y", 
+        "mongodb-mcp-server",
+        "--connectionString",
+        "mongodb://localhost:27017"
+      ]
     }
   }
 }
