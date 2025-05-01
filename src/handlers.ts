@@ -6,5 +6,5 @@ export default {
   help,
   dir,
   servers: () => console.log(Object.keys(mcpServers).join('\n')),
-  run: ({server, command, args}) => run(server, command, args)
+  run
 };
