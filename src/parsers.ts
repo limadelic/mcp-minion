@@ -4,7 +4,7 @@ export default {
   help: () => ({ cmd: "help" }),
   docs: () => ({ cmd: "docs" }),
   servers: () => ({ cmd: "servers" }),
-  parse: (args) => {
+  parse: args => {
     const isServer = Object.keys(mcpServers).includes(args[0]);
     return {
       cmd: "run",
