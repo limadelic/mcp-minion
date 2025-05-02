@@ -1,10 +1,9 @@
 import { argv } from './argv.js';
+import yaml from 'js-yaml';
 
 export async function list(client) {
   (await client.listTools())
-  .tools.forEach(({name, description, inputSchema}) => console.log(
-    `${name}\n  ${description}\n  ${JSON.stringify(inputSchema?.properties)}\n`
-  ));
+  .tools.forEach(tool => console.log(yaml.dump(tool)));
 }
 
 export async function call(client, name = argv.name, args = argv.args) {
