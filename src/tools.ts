@@ -21,9 +21,9 @@ export async function list() {
   }
 }
 
-export async function call() {
-  const toolArgs = args?.length > 0 ? JSON.parse(args[0]) : {};
-  const result = await client.callTool({ name, arguments: toolArgs });
+export async function call(toolName = name, toolArgs = args) {
+  const parsedArgs = toolArgs?.length > 0 ? JSON.parse(toolArgs[0]) : {};
+  const result = await client.callTool({ name: toolName, arguments: parsedArgs });
   
   const content = result?.content || [];
   for (const item of content) {
