@@ -10,7 +10,7 @@ export function help() {
   read("../README.md");
 }
 
-export async function dir() {
+export async function tools() {
   for (const server of config.servers) {
     console.log(`\n${server}:\n`);
     await run(server);
