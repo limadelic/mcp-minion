@@ -1,7 +1,8 @@
-import { data } from './argv.js';
+import { name, args, argv } from './argv.js';
+import { client } from './client.js';
 
 export async function list() {
-  const result = await data.client.listTools();
+  const result = await client.listTools();
   if (process.env.DEBUG) console.log(JSON.stringify(result, null, 2));
   
   for (const tool of result.tools) {
@@ -21,8 +22,8 @@ export async function list() {
 }
 
 export async function call() {
-  const toolArgs = data.cmdArgs?.length > 0 ? JSON.parse(data.cmdArgs[0]) : {};
-  const result = await data.client.callTool({ name: data.name, arguments: toolArgs });
+  const toolArgs = args?.length > 0 ? JSON.parse(args[0]) : {};
+  const result = await client.callTool({ name, arguments: toolArgs });
   
   const content = result?.content || [];
   for (const item of content) {
