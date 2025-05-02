@@ -4,16 +4,14 @@ import { mcpServers } from './config.js';
 import * as tools from './tools.js';
 import { argv } from './argv.js';
 
-export let client = null;
-
 export async function run(server = argv.server, name = argv.name, args = argv.args) {
   
-  client = new Client({ name: "mcp-minion", version: "0.1.4" }, { capabilities: {} });
+  const client = new Client({ name: "mcp-minion", version: "0.1.4" }, { capabilities: {} });
   const transport = new StdioClientTransport(mcpServers[server]);
   
   await client.connect(transport);
   
-  await (name && tools.call(name, args) || tools.list());
+  await (name && tools.call(client, name, args) || tools.list(client));
   
   await client.close();
 }

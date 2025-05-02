@@ -1,34 +1,13 @@
-import { name, args, argv } from './argv.js';
-import { client } from './client.js';
+import { argv } from './argv.js';
 
-export async function list() {
-  const result = await client.listTools();
-  if (process.env.DEBUG) console.log(JSON.stringify(result, null, 2));
-  
-  for (const tool of result.tools) {
-    console.log(`${tool.name}`);
-    console.log(`  ${tool.description?.split('\n')[0] || ''}`);
-    
-    if (tool.inputSchema?.properties) {
-      const required = tool.inputSchema.required || [];
-      for (const [paramName, paramDetails] of Object.entries(tool.inputSchema.properties)) {
-        const isRequired = required.includes(paramName) ? '*' : '';
-        const paramType = 'any';
-        console.log(`    ${paramName}${isRequired}: <${paramType}>`);
-      }
-    }
-    console.log('');
-  }
+export async function list(client) {
+  (await client.listTools())
+  .tools.forEach(({name, description, inputSchema}) => console.log(
+    `${name}\n  ${description}\n  ${JSON.stringify(inputSchema?.properties)}\n`
+  ));
 }
 
-export async function call(toolName = name, toolArgs = args) {
-  const parsedArgs = toolArgs?.length > 0 ? JSON.parse(toolArgs[0]) : {};
-  const result = await client.callTool({ name: toolName, arguments: parsedArgs });
-  
-  const content = result?.content || [];
-  for (const item of content) {
-    if (item?.type === 'text' && item.text) {
-      console.log(item.text);
-    }
-  }
+export async function call(client, name = argv.name, args = argv.args) {
+  (await client.callTool({ name, arguments: args }))
+    .content.forEach(item => console.log(item.text));
 }
