@@ -1,12 +1,14 @@
-import { argv } from './argv.js';
-import yaml from 'js-yaml';
+import { argv } from "./argv.js";
+import yaml from "js-yaml";
 
 export async function list(client) {
-  (await client.listTools())
-  .tools.forEach(tool => console.log(yaml.dump(tool)));
+  (await client.listTools()).tools.forEach((tool) =>
+    console.log(yaml.dump(tool)),
+  );
 }
 
 export async function call(client, name = argv.name, args = argv.args) {
-  (await client.callTool({ name, arguments: args }))
-    .content.forEach(item => console.log(item.text));
+  (await client.callTool({ name, arguments: args })).content.forEach((item) =>
+    console.log(yaml.dump(item)),
+  );
 }

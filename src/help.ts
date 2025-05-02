@@ -1,13 +1,13 @@
-import fs from 'fs';
-import * as config from './config.js';
-import { run } from './client.js';
+import fs from "fs";
+import * as config from "./config.js";
+import { run } from "./client.js";
 
 function read(file) {
-  console.log(fs.readFileSync(new URL(file, import.meta.url), 'utf8'));
+  console.log(fs.readFileSync(new URL(file, import.meta.url), "utf8"));
 }
 
 export function help() {
-  read('../README.md');
+  read("../README.md");
 }
 
 export async function dir() {
@@ -18,5 +18,5 @@ export async function dir() {
 }
 
 export function servers() {
-  console.log(config.servers.join('\n'));
+  console.log(config.servers.join("\n"));
 }
