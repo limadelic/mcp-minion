@@ -4,7 +4,7 @@ const params = process.argv.slice(2);
 const arg = params.length === 0 ? "help" : params[0];
 const servers = Object.keys(mcpServers);
 
-const cmds = ["help", "dir", "servers"];
+const cmds = ["help", "dir", "servers", "tools"];
 const isCmd = cmds.includes(arg);
 const isServer = servers.includes(arg);
 

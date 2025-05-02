@@ -6,4 +6,5 @@ export default {
   dir,
   servers,
   run,
+  tools: dir,
 };
