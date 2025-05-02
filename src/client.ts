@@ -14,12 +14,8 @@ export async function run(
     { capabilities: {} },
   );
 
-  try {
-    const transport = new StdioClientTransport(mcpServers[server]);
-    await client.connect(transport);
-    await ((name && tools.call(client, name, args)) || tools.list(client));
-    await client.close();
-  } catch {
-    console.log("failed");
-  }
+  const transport = new StdioClientTransport(mcpServers[server]);
+  await client.connect(transport);
+  await ((name && tools.call(client, name, args)) || tools.list(client));
+  await client.close();
 }
