@@ -13,11 +13,13 @@ export async function run(
     { name: "mcp-minion", version: "0.1.4" },
     { capabilities: {} },
   );
-  const transport = new StdioClientTransport(mcpServers[server]);
 
-  await client.connect(transport);
-
-  await ((name && tools.call(client, name, args)) || tools.list(client));
-
-  await client.close();
+  try {
+    const transport = new StdioClientTransport(mcpServers[server]);
+    await client.connect(transport);
+    await ((name && tools.call(client, name, args)) || tools.list(client));
+    await client.close();
+  } catch (e) {
+    console.log("unresponsive");
+  }
 }
