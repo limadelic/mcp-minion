@@ -1,5 +1,4 @@
-import { help, dir } from './help.js';
-import { servers } from './config.js';
+import { help, dir, servers } from './help.js';
 import { run } from './client.js';
 
 export default {

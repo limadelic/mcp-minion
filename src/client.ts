@@ -2,27 +2,18 @@ import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
 import { mcpServers } from './config.js';
 import * as tools from './tools.js';
-import { server, resource, name, args } from './argv.js';
+import { argv } from './argv.js';
 
 export let client = null;
 
-export async function run(serverName = server, resourceType = resource, resourceName = name, resourceArgs = args) {
-  if (!serverName) return;
-  const serverConfig = mcpServers[serverName];
-  console.log(`\n${serverName}:\n`);
+export async function run(server = argv.server, name = argv.name, args = argv.args) {
   
   client = new Client({ name: "mcp-minion", version: "0.1.4" }, { capabilities: {} });
-  const transport = new StdioClientTransport(serverConfig);
+  const transport = new StdioClientTransport(mcpServers[server]);
   
   await client.connect(transport);
   
-
-
-  if (resourceType === 'tools' && !resourceName) {
-    await tools.list();
-  } else {
-    await tools.call(resourceName, resourceArgs);
-  }
+  await (name && tools.call(name, args) || tools.list());
   
   await client.close();
 }
