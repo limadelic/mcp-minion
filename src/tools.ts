@@ -3,7 +3,12 @@ import yaml from "js-yaml";
 
 export async function list(client) {
   (await client.listTools()).tools.forEach(tool =>
-    console.log(yaml.dump(tool)),
+    console.log(
+      yaml.dump({
+        name: tool.name,
+        description: tool.description,
+      }),
+    ),
   );
 }
 
