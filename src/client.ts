@@ -19,7 +19,7 @@ export async function run(
     await client.connect(transport);
     await ((name && tools.call(client, name, args)) || tools.list(client));
     await client.close();
-  } catch (e) {
-    console.log("unresponsive");
+  } catch {
+    console.log("failed");
   }
 }
