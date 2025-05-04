@@ -1,4 +1,4 @@
-import { mcpServers } from "./config.js";
+import { mcpServers } from "./conf.js";
 
 const params = process.argv.slice(2);
 const arg =

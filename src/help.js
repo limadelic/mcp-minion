@@ -1,5 +1,5 @@
 import fs from "fs";
-import * as config from "./config.js";
+import * as config from "./conf.js";
 
 function read(file) {
   console.log(

@@ -1,4 +1,4 @@
-import { mcpServers } from "./config.js";
+import { mcpServers } from "./conf.js";
 
 export default {
   help: () => ({ cmd: "help" }),
