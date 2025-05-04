@@ -1,37 +1,40 @@
-import { mcpServers } from "./conf.js";
+import { servers } from "./conf.js";
 
-const params = process.argv.slice(2);
-const arg =
-  params.length === 0 ? "help" : params[0];
-const servers = Object.keys(mcpServers);
+const argv = process.argv.slice(2);
 
-const cmds = ["help", "servers"];
-const isCmd = cmds.includes(arg);
-const isServer = servers.includes(arg);
+function getCmd() {
+  return ["help", "servers", "add"].includes(
+    argv[0],
+  )
+    ? argv[0]
+    : servers.includes(argv[0])
+      ? "run"
+      : "help";
+}
 
-const isToolsListing =
-  isServer && params[1] === "tools";
+export const cmd = getCmd();
 
-export const cmd = isCmd
-  ? arg
-  : !isServer
-    ? "help"
-    : "run";
+function getServer() {
+  return cmd === "run" ? argv[0] : argv[1];
+}
 
-export const server = isServer ? arg : null;
+export const server = getServer();
+
 export const resource = "tools";
 
-export const name =
-  isServer && params[1] && !isToolsListing
-    ? params[1]
-    : null;
+function getName() {
+  return cmd === "run" ? argv[1] : argv[2];
+}
 
-export const args =
-  isServer && params[2] && !isToolsListing
-    ? JSON.parse(params[2])
-    : {};
+export const name = getName();
 
-export const argv = {
+function getArgs() {
+  return cmd === "run" ? argv[2] : argv[3];
+}
+
+export const args = getArgs();
+
+export default {
   cmd,
   server,
   resource,

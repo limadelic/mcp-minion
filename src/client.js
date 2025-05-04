@@ -2,7 +2,7 @@ import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
 import { mcpServers } from "./conf.js";
 import * as tools from "./tools.js";
-import { argv } from "./argv.js";
+import * as argv from "./argv.js";
 
 export async function run(
   server = argv.server,
