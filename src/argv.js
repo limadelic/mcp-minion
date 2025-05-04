@@ -29,7 +29,9 @@ function getName() {
 export const name = getName();
 
 function getArgs() {
-  return cmd === "run" ? argv[2] : argv[3];
+  return cmd === "run"
+    ? JSON.parse(argv[2] || "{}")
+    : argv.slice(3);
 }
 
 export const args = getArgs();
