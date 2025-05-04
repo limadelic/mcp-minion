@@ -17,7 +17,7 @@ async function needsArg(client, name, args) {
   const tool = tools?.tools.find(
     t => t.name === name,
   );
-  if (tool?.inputSchema?.required?.length === 0)
+  if (!tool?.inputSchema?.required?.length)
     return false;
 
   console.log(yaml.dump(tool));
@@ -29,14 +29,20 @@ export async function call(
   name = argv.name,
   args = argv.args,
 ) {
-  if (await needsArg(client, name, args)) return;
+  const needsArguments = await needsArg(
+    client,
+    name,
+    args,
+  );
 
-  await client
-    .callTool({
-      name,
-      arguments: args,
-    })
-    .content.forEach(item =>
+  if (!needsArguments) {
+    (
+      await client.callTool({
+        name,
+        arguments: args,
+      })
+    ).content.forEach(item =>
       console.log(yaml.dump(item)),
     );
+  }
 }
