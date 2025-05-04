@@ -17,12 +17,15 @@ export const cmd = isCmd
   : !isServer
     ? "help"
     : "run";
+
 export const server = isServer ? arg : null;
 export const resource = "tools";
+
 export const name =
   isServer && params[1] && !isToolsListing
     ? params[1]
     : null;
+
 export const args =
   isServer && params[2] && !isToolsListing
     ? JSON.parse(params[2])
