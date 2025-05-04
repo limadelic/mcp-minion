@@ -14,7 +14,7 @@
     "mcp-config.json"
   ],
   "scripts": {
-    "build": "tsc && shx chmod +x dist/*.js",
+    "build": "mkdir -p dist && cp src/*.js dist/ && shx chmod +x dist/*.js",
     "prepare": "npm run build",
     "start": "node dist/oo.js",
     "test": "exit 0",
@@ -37,10 +37,8 @@
     "mongodb-mcp-server": "^0.1.0"
   },
   "devDependencies": {
-    "@types/node": "^22",
     "prettier": "^3.5.3",
-    "shx": "^0.4.0",
-    "typescript": "^5.3.3"
+    "shx": "^0.4.0"
   },
   "engines": {
     "node": ">=18"
