@@ -1,6 +1,8 @@
 import Conf from "conf";
 
-const conf = new Conf();
+const conf = new Conf({
+  projectName: "mcp-minion",
+});
 
 export const mcpServers =
   conf.get("mcpServers") || {};
