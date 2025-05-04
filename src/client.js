@@ -14,8 +14,12 @@ export async function run(
     { capabilities: {} },
   );
 
-  const transport = new StdioClientTransport(mcpServers[server]);
+  const transport = new StdioClientTransport(
+    mcpServers[server],
+  );
   await client.connect(transport);
-  await ((name && tools.call(client, name, args)) || tools.list(client));
+  await ((name &&
+    tools.call(client, name, args)) ||
+    tools.list(client));
   await client.close();
 }

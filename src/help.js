@@ -2,7 +2,12 @@ import fs from "fs";
 import * as config from "./config.js";
 
 function read(file) {
-  console.log(fs.readFileSync(new URL(file, import.meta.url), "utf8"));
+  console.log(
+    fs.readFileSync(
+      new URL(file, import.meta.url),
+      "utf8",
+    ),
+  );
 }
 
 export function help() {
