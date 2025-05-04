@@ -1,6 +1,5 @@
 import fs from "fs";
 import * as config from "./config.js";
-import { run } from "./client.js";
 
 function read(file) {
   console.log(fs.readFileSync(new URL(file, import.meta.url), "utf8"));
