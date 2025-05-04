@@ -6,6 +6,7 @@ export const cmd = [
   "help",
   "servers",
   "add",
+  "rm",
 ].includes(argv[0])
   ? argv[0]
   : servers.includes(argv[0])

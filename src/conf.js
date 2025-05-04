@@ -14,3 +14,8 @@ export function add() {
   mcpServers[server] = { command: name, args };
   conf.set("mcpServers", mcpServers);
 }
+
+export function rm() {
+  delete mcpServers[server];
+  conf.set("mcpServers", mcpServers);
+}
