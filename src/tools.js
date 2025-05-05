@@ -31,12 +31,12 @@ export async function call(
 ) {
   if (await needsArg(client, name, args)) return;
 
-  (
-    await client.callTool({
-      name,
-      arguments: args,
-    })
-  ).content.forEach(item =>
+  const result = await client.callTool({
+    name,
+    arguments: args,
+  });
+
+  result.content.forEach(item =>
     console.log(yaml.dump(item)),
   );
 }
