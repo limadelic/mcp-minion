@@ -29,20 +29,14 @@ export async function call(
   name = argv.name,
   args = argv.args,
 ) {
-  const needsArguments = await needsArg(
-    client,
-    name,
-    args,
-  );
+  if (await needsArg(client, name, args)) return;
 
-  if (!needsArguments) {
-    (
-      await client.callTool({
-        name,
-        arguments: args,
-      })
-    ).content.forEach(item =>
-      console.log(yaml.dump(item)),
-    );
-  }
+  (
+    await client.callTool({
+      name,
+      arguments: args,
+    })
+  ).content.forEach(item =>
+    console.log(yaml.dump(item)),
+  );
 }
