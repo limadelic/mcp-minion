@@ -27,10 +27,10 @@ export async function call(
 ) {
   if (await needsArg(client, name, args)) return;
 
-  const result = await client.callTool({
+  const { content } = await client.callTool({
     name,
     arguments: args,
   });
 
-  log(result.content);
+  log(content);
 }

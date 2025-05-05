@@ -1,19 +1,14 @@
 import yaml from "js-yaml";
+import _ from "lodash";
 
 export function log(data, fields) {
-  if (Array.isArray(data)) {
-    data.forEach(item => log(item, fields));
-    return;
-  }
-
-  if (fields && typeof data === "object") {
-    const filtered = {};
-    fields.forEach(
-      field => (filtered[field] = data[field]),
+  if (_.isArray(data))
+    return _.each(data, item =>
+      log(item, fields),
     );
-    console.log(yaml.dump(filtered));
-    return;
-  }
-
-  console.log(yaml.dump(data));
+  console.log(
+    yaml.dump(
+      fields ? _.pick(data, fields) : data,
+    ),
+  );
 }
