@@ -18,17 +18,16 @@ export async function list(client) {
 }
 
 async function needsArg(client, name, args) {
-  if (!_.isEmpty(args)) return false;
+  if (!_.isEmpty(args)) return;
 
   const tool = _.find(await tools(client), {
     name,
   });
 
   if (!tool?.inputSchema?.required?.length)
-    return false;
+    return;
 
-  log(tool);
-  return true;
+  return log(tool);
 }
 
 export async function call(
