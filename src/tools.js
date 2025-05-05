@@ -2,20 +2,25 @@ import * as argv from "./argv.js";
 import { log } from "./log.js";
 import _ from "lodash";
 
-export async function list(client) {
-  const tools = _.get(
+async function tools(client) {
+  return _.get(
     await client.listTools(),
     "tools",
     [],
   );
-  log(tools, ["name", "description"]);
+}
+
+export async function list(client) {
+  log(await tools(client), [
+    "name",
+    "description",
+  ]);
 }
 
 async function needsArg(client, name, args) {
   if (!_.isEmpty(args)) return false;
 
-  const tools = await client.listTools();
-  const tool = _.find(_.get(tools, "tools", []), {
+  const tool = _.find(await tools(client), {
     name,
   });
 
