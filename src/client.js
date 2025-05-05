@@ -14,9 +14,10 @@ export async function run(
     { capabilities: {} },
   );
 
-  const transport = new StdioClientTransport(
-    mcpServers[server],
-  );
+  const transport = new StdioClientTransport({
+    ...mcpServers[server],
+    env: process.env,
+  });
   await client.connect(transport);
   await ((name &&
     tools.call(client, name, args)) ||
