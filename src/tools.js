@@ -27,7 +27,8 @@ async function needsArg(client, name, args) {
   if (!tool?.inputSchema?.required?.length)
     return;
 
-  return log(tool);
+  log(tool);
+  return true;
 }
 
 export async function call(
