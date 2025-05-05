@@ -2,10 +2,8 @@ import * as argv from "./argv.js";
 import { log } from "./log.js";
 
 export async function list(client) {
-  (await client.listTools()).tools.forEach(
-    ({ name, description }) =>
-      log({ name, description }),
-  );
+  const tools = (await client.listTools()).tools;
+  log(tools, ["name", "description"]);
 }
 
 async function needsArg(client, name, args) {
