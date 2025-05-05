@@ -1,12 +1,14 @@
 import * as argv from "./argv.js";
 import yaml from "js-yaml";
 
+function log(data) {
+  console.log(yaml.dump(data));
+}
+
 export async function list(client) {
   (await client.listTools()).tools.forEach(
     ({ name, description }) =>
-      console.log(
-        yaml.dump({ name, description }),
-      ),
+      log({ name, description }),
   );
 }
 
@@ -20,7 +22,7 @@ async function needsArg(client, name, args) {
   if (!tool?.inputSchema?.required?.length)
     return false;
 
-  console.log(yaml.dump(tool));
+  log(tool);
   return true;
 }
 
@@ -36,7 +38,5 @@ export async function call(
     arguments: args,
   });
 
-  result.content.forEach(item =>
-    console.log(yaml.dump(item)),
-  );
+  result.content.forEach(item => log(item));
 }
