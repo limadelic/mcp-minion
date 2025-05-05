@@ -3,7 +3,6 @@ import { servers } from "./conf.js";
 const argv = process.argv.slice(2);
 
 export const cmd = [
-  "help",
   "servers",
   "add",
   "rm",
