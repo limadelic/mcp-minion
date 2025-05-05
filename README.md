@@ -11,9 +11,9 @@ npm install -g mcp-minion
 ## Usage
 
 ```
-oo add <server> <cmd> <args>    - Add new server to config
-oo rm <server>                  - Remove server from config
-oo servers                      - List available MCP servers from config
+oo servers                      - List available MCP servers
+oo add <server> <cmd> <args>    - Add server
+oo rm <server>                  - Remove server
 oo <server> tools               - List available tools on <server>
 oo <server> <tool> {args}       - Use tool with json arguments
 ```

@@ -1,40 +1,40 @@
-import { mcpServers } from "./conf.js";
+import { servers } from "./conf.js";
 
-const params = process.argv.slice(2);
-const arg =
-  params.length === 0 ? "help" : params[0];
-const servers = Object.keys(mcpServers);
+const argv = process.argv.slice(2);
 
-const cmds = ["help", "servers"];
-const isCmd = cmds.includes(arg);
-const isServer = servers.includes(arg);
+export const cmd = [
+  "servers",
+  "add",
+  "rm",
+].includes(argv[0])
+  ? argv[0]
+  : servers.includes(argv[0])
+    ? "run"
+    : "help";
 
-const isToolsListing =
-  isServer && params[1] === "tools";
+export const server = argv[cmd === "run" ? 0 : 1];
 
-export const cmd = isCmd
-  ? arg
-  : !isServer
-    ? "help"
-    : "run";
-
-export const server = isServer ? arg : null;
 export const resource = "tools";
 
-export const name =
-  isServer && params[1] && !isToolsListing
-    ? params[1]
-    : null;
+export const name = argv[cmd === "run" ? 1 : 2];
 
 export const args =
-  isServer && params[2] && !isToolsListing
-    ? JSON.parse(params[2])
-    : {};
+  cmd === "run"
+    ? JSON.parse(argv[2] || "{}")
+    : argv.slice(3).filter(a => !a.includes("="));
 
-export const argv = {
+export const envs = Object.fromEntries(
+  argv
+    .slice(3)
+    .filter(a => a.includes("="))
+    .map(a => a.split("=")),
+);
+
+export default {
   cmd,
   server,
   resource,
   name,
   args,
+  envs,
 };

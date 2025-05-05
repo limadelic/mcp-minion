@@ -1,4 +1,4 @@
-import { argv } from "./argv.js";
+import * as argv from "./argv.js";
 import yaml from "js-yaml";
 
 export async function list(client) {
