@@ -19,7 +19,7 @@ export function add() {
   mcpServers[server] = {
     command: name,
     args,
-    envs,
+    env: envs,
   };
   conf.set("mcpServers", mcpServers);
 }
