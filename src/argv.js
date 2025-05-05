@@ -12,18 +12,23 @@ export const cmd = [
     ? "run"
     : "help";
 
-export const server =
-  cmd === "run" ? argv[0] : argv[1];
+export const server = argv[cmd === "run" ? 0 : 1];
 
 export const resource = "tools";
 
-export const name =
-  cmd === "run" ? argv[1] : argv[2];
+export const name = argv[cmd === "run" ? 1 : 2];
 
 export const args =
   cmd === "run"
     ? JSON.parse(argv[2] || "{}")
-    : argv.slice(3);
+    : argv.slice(3).filter(a => !a.includes("="));
+
+export const envs = Object.fromEntries(
+  argv
+    .slice(3)
+    .filter(a => a.includes("="))
+    .map(a => a.split("=")),
+);
 
 export default {
   cmd,
@@ -31,4 +36,5 @@ export default {
   resource,
   name,
   args,
+  envs,
 };
