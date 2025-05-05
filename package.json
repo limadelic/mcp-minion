@@ -35,6 +35,7 @@
     "@modelcontextprotocol/server-filesystem": "latest",
     "conf": "^13.1.0",
     "js-yaml": "^4.1.0",
+    "lodash": "^4.17.21",
     "mongodb-mcp-server": "^0.1.0"
   },
   "devDependencies": {

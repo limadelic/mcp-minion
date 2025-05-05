@@ -6,6 +6,7 @@ export function log(data, fields) {
     return _.each(data, item =>
       log(item, fields),
     );
+
   console.log(
     yaml.dump(
       fields ? _.pick(data, fields) : data,
