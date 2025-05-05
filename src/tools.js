@@ -1,9 +1,5 @@
 import * as argv from "./argv.js";
-import yaml from "js-yaml";
-
-function log(data) {
-  console.log(yaml.dump(data));
-}
+import { log } from "./log.js";
 
 export async function list(client) {
   (await client.listTools()).tools.forEach(
@@ -38,5 +34,5 @@ export async function call(
     arguments: args,
   });
 
-  result.content.forEach(item => log(item));
+  log(result.content);
 }
