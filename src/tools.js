@@ -1,29 +1,36 @@
 import * as argv from "./argv.js";
-import yaml from "js-yaml";
+import { log } from "./log.js";
+import _ from "lodash";
+
+async function tools(client) {
+  return _.get(
+    await client.listTools(),
+    "tools",
+    [],
+  );
+}
 
 export async function list(client) {
-  (await client.listTools()).tools.forEach(
-    ({ name, description }) =>
-      console.log(
-        yaml.dump({ name, description }),
-      ),
-  );
+  log(await tools(client), [
+    "name",
+    "description",
+  ]);
 }
 
 async function needsArg(client, name, args) {
-  if (Object.keys(args).length > 0) return false;
+  if (!_.isEmpty(args)) return false;
 
-  const tools = await client.listTools();
-  const tool = tools?.tools.find(
-    t => t.name === name,
-  );
+  const tool = _.find(await tools(client), {
+    name,
+  });
+
   if (!tool?.inputSchema?.required?.length)
     return false;
 
-  console.log(yaml.dump(tool));
+  log(tool);
   return true;
 }
-asdasd;
+
 export async function call(
   client,
   name = argv.name,
@@ -31,12 +38,10 @@ export async function call(
 ) {
   if (await needsArg(client, name, args)) return;
 
-  const result = await client.callTool({
+  const { content } = await client.callTool({
     name,
     arguments: args,
   });
 
-  result.content.forEach(item =>
-    console.log(yaml.dump(item)),
-  );
+  log(content);
 }
