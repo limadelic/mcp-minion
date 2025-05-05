@@ -21,14 +21,7 @@ export const name = argv[cmd === "run" ? 1 : 2];
 export const args =
   cmd === "run"
     ? JSON.parse(argv[2] || "{}")
-    : argv.slice(3).filter(a => !a.includes("="));
-
-export const envs = Object.fromEntries(
-  argv
-    .slice(3)
-    .filter(a => a.includes("="))
-    .map(a => a.split("=")),
-);
+    : argv.slice(3);
 
 export default {
   cmd,
@@ -36,5 +29,4 @@ export default {
   resource,
   name,
   args,
-  envs,
 };
