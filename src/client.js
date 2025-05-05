@@ -14,15 +14,8 @@ export async function run(
     { capabilities: {} },
   );
 
-  // Create a config with environment variables passed through
-  const serverConfig = mcpServers[server];
-  const configWithEnv = {
-    ...serverConfig,
-    env: process.env, // Pass all environment variables to child process
-  };
-
   const transport = new StdioClientTransport(
-    configWithEnv,
+    mcpServers[server],
   );
   await client.connect(transport);
   await ((name &&
