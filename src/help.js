@@ -2,19 +2,14 @@ import fs from "fs";
 import * as config from "./conf.js";
 import { log } from "./log.js";
 
-function read(file) {
-  log(
-    fs.readFileSync(
-      new URL(file, import.meta.url),
-      "utf8",
-    ),
+const read = file =>
+  fs.readFileSync(
+    new URL(file, import.meta.url),
+    "utf8",
   );
-}
 
-export function help() {
-  read("../README.md");
-}
+export const help = () =>
+  log(read("../README.md"));
 
-export function servers() {
-  log(config.servers);
-}
+export const servers = () =>
+  log(config.mcpServers);
