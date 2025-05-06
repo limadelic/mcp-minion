@@ -24,11 +24,7 @@ async function needsArg(client, name, args) {
     name,
   });
 
-  if (!tool?.inputSchema?.required?.length)
-    return;
-
-  log(tool);
-  return true;
+  return tool?.inputSchema?.required?.length > 0;
 }
 
 export async function call(
@@ -36,12 +32,13 @@ export async function call(
   name = argv.name,
   args = argv.args,
 ) {
-  if (await needsArg(client, name, args)) return;
+  if (await needsArg(client, name, args))
+    return log(await tools(client));
 
-  const { content } = await client.callTool({
-    name,
-    arguments: args,
-  });
-
-  log(content);
+  log(
+    await client.callTool({
+      name,
+      arguments: args,
+    }).content,
+  );
 }
