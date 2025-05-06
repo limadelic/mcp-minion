@@ -3,6 +3,7 @@ import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js"
 import { mcpServers } from "./conf.js";
 import * as tools from "./tools.js";
 import * as argv from "./argv.js";
+import pkg from "../package.json" with { type: "json" };
 
 export async function run(
   server = argv.server,
@@ -10,7 +11,7 @@ export async function run(
   args = argv.args,
 ) {
   const client = new Client(
-    { name: "mcp-minion", version: "0.1.4" },
+    { name: "mcp-minion", version: pkg.version },
     { capabilities: {} },
   );
 
