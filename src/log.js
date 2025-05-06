@@ -12,8 +12,9 @@ const logObject = (data, fields) =>
   );
 
 export function log(data, fields) {
-  if (_.isArray(data)) logArray(data, fields);
-  else if (_.isObject(data))
-    logObject(data, fields);
-  else console.log(data);
+  if (_.isArray(data))
+    return logArray(data, fields);
+  if (_.isObject(data))
+    return logObject(data, fields);
+  console.log(data);
 }
