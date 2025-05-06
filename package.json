@@ -1,6 +1,6 @@
 {
   "name": "mcp-minion",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "Minimal MCP client that follows the official protocol spec exactly",
   "type": "module",
   "main": "dist/oo.js",
