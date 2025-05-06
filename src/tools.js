@@ -36,9 +36,11 @@ export async function call(
     return log(await tools(client));
 
   log(
-    await client.callTool({
-      name,
-      arguments: args,
-    }).content,
+    (
+      await client.callTool({
+        name,
+        arguments: args,
+      })
+    ).content,
   );
 }
