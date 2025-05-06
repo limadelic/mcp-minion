@@ -11,5 +11,4 @@ const read = file =>
 export const help = () =>
   log(read("../README.md"));
 
-export const servers = () =>
-  log(config.mcpServers);
+export const servers = () => log(config.servers);
