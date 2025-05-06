@@ -1,5 +1,6 @@
 import fs from "fs";
 import * as config from "./conf.js";
+import { log } from "./log.js";
 
 function read(file) {
   console.log(
@@ -15,5 +16,5 @@ export function help() {
 }
 
 export function servers() {
-  console.log(config.servers.join("\n"));
+  log(config.servers);
 }
