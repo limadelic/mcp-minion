@@ -3,7 +3,7 @@ import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js"
 import { mcpServers } from "./conf.js";
 import * as tools from "./tools.js";
 import * as argv from "./argv.js";
-import pkg from "../package.json" assert { type: "json" };
+import pkg from "../package.json" with { type: "json" };
 
 export async function run(
   server = argv.server,
