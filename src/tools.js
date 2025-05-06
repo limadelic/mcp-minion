@@ -35,12 +35,10 @@ export async function call(
   if (await needsArg(client, name, args))
     return log(await tools(client));
 
-  log(
-    (
-      await client.callTool({
-        name,
-        arguments: args,
-      })
-    ).content,
-  );
+  const { content } = await client.callTool({
+    name,
+    arguments: args,
+  });
+
+  log(content);
 }
