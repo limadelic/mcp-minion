@@ -23,7 +23,7 @@ const isUrl = name?.match(/^https?:\/\//);
 export const url = isUrl ? name : null;
 
 export const headers =
-  !isUrl && cmd === "add"
+  isUrl && cmd === "add"
     ? parseHeaders(argv.slice(3))
     : {};
 
