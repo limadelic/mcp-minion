@@ -39,13 +39,11 @@ async function createHttpTransport(config) {
   }
 
   try {
-    return new StreamableHTTPClientTransport({
-      url: new URL(config.url),
+    return new StreamableHTTPClientTransport(config.url, {
       requestInit,
     });
   } catch {
-    return new SSEClientTransport({
-      url: new URL(config.url),
+    return new SSEClientTransport(config.url, {
       requestInit,
     });
   }
