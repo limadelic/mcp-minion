@@ -40,7 +40,8 @@ async function createHttpTransport(config, client) {
     requestInit.headers = config.headers;
   }
 
-  const streamableTransport = new StreamableHTTPClientTransport(config.url, {
+  const url = new URL(config.url);
+  const streamableTransport = new StreamableHTTPClientTransport(url, {
     requestInit,
   });
 
@@ -48,7 +49,7 @@ async function createHttpTransport(config, client) {
     await client.connect(streamableTransport);
     return streamableTransport;
   } catch {
-    const sseTransport = new SSEClientTransport(config.url, {
+    const sseTransport = new SSEClientTransport(url, {
       requestInit,
     });
     await client.connect(sseTransport);
