@@ -1,5 +1,11 @@
 import Conf from "conf";
-import { server, name, args } from "./argv.js";
+import {
+  server,
+  name,
+  args,
+  url,
+  headers,
+} from "./argv.js";
 
 const conf = new Conf({
   projectName: "mcp-minion",
@@ -11,10 +17,19 @@ export const mcpServers =
 export const servers = Object.keys(mcpServers);
 
 export function add() {
-  mcpServers[server] = {
-    command: name,
-    args,
-  };
+  if (url) {
+    mcpServers[server] = {
+      url,
+      ...(Object.keys(headers).length > 0 && {
+        headers,
+      }),
+    };
+  } else {
+    mcpServers[server] = {
+      command: name,
+      args,
+    };
+  }
   conf.set("mcpServers", mcpServers);
 }
 
