@@ -19,32 +19,39 @@ export async function run(
 
   const config = mcpServers[server];
   const transport = config.url
-    ? await createHttpTransport(config)
+    ? await createHttpTransport(config, client)
     : new StdioClientTransport({
         ...config,
         env: process.env,
       });
 
-  await client.connect(transport);
+  if (config.url === undefined) {
+    await client.connect(transport);
+  }
   await ((name &&
     tools.call(client, name, args)) ||
     tools.list(client));
   await client.close();
 }
 
-async function createHttpTransport(config) {
+async function createHttpTransport(config, client) {
   const requestInit = {};
   if (config.headers) {
     requestInit.headers = config.headers;
   }
 
+  const streamableTransport = new StreamableHTTPClientTransport(config.url, {
+    requestInit,
+  });
+
   try {
-    return new StreamableHTTPClientTransport(config.url, {
-      requestInit,
-    });
+    await client.connect(streamableTransport);
+    return streamableTransport;
   } catch {
-    return new SSEClientTransport(config.url, {
+    const sseTransport = new SSEClientTransport(config.url, {
       requestInit,
     });
+    await client.connect(sseTransport);
+    return sseTransport;
   }
 }
