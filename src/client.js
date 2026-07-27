@@ -18,38 +18,15 @@ function expandEnv(value) {
   );
 }
 
-export async function run(
-  server = argv.server,
-  name = argv.name,
-  args = argv.args,
-) {
-  const client = new Client(
-    { name: "mcp-minion", version: pkg.version },
-    { capabilities: {} },
-  );
-
-  const config = mcpServers[server];
-  const transport = config.url
-    ? await createHttpTransport(config, client)
-    : new StdioClientTransport({
-        command: config.command,
-        args: config.args?.map(expandEnv) || [],
-        env: process.env,
-      });
-
-  if (config.url === undefined) {
-    await client.connect(transport);
-  }
-  await ((name &&
-    tools.call(client, name, args)) ||
-    tools.list(client));
-  await client.close();
+function buildStdioTransport(config) {
+  return new StdioClientTransport({
+    command: config.command,
+    args: config.args?.map(expandEnv) || [],
+    env: process.env,
+  });
 }
 
-async function createHttpTransport(
-  config,
-  client,
-) {
+function buildHttpTransport(config, type) {
   const requestInit = {};
   if (config.headers) {
     requestInit.headers = Object.fromEntries(
@@ -60,22 +37,57 @@ async function createHttpTransport(
   }
 
   const url = new URL(expandEnv(config.url));
-  const streamableTransport =
-    new StreamableHTTPClientTransport(url, {
-      requestInit,
-    });
+
+  if (type === "sse") {
+    return new SSEClientTransport(url, { requestInit });
+  }
+
+  return new StreamableHTTPClientTransport(url, { requestInit });
+}
+
+export async function run(
+  server = argv.server,
+  name = argv.name,
+  args = argv.args,
+) {
+  const config = mcpServers[server];
+  if (!config) {
+    console.error(`unknown server: ${server}`);
+    const available = Object.keys(mcpServers);
+    if (available.length > 0) {
+      console.error(`available: ${available.join(", ")}`);
+    }
+    process.exit(1);
+  }
+
+  let client = new Client(
+    { name: "mcp-minion", version: pkg.version },
+    { capabilities: {} },
+  );
+
+  const type = config.type || (config.url ? "http" : "stdio");
+  let transport = type === "stdio"
+    ? buildStdioTransport(config)
+    : buildHttpTransport(config, type);
 
   try {
-    await client.connect(streamableTransport);
-    return streamableTransport;
-  } catch {
-    const sseTransport = new SSEClientTransport(
-      url,
-      {
-        requestInit,
-      },
-    );
-    await client.connect(sseTransport);
-    return sseTransport;
+    await client.connect(transport);
+  } catch (e) {
+    if (type === "http") {
+      await transport.close?.();
+      client = new Client(
+        { name: "mcp-minion", version: pkg.version },
+        { capabilities: {} },
+      );
+      transport = buildHttpTransport(config, "sse");
+      await client.connect(transport);
+    } else {
+      throw e;
+    }
   }
+
+  await ((name &&
+    tools.call(client, name, args)) ||
+    tools.list(client));
+  await client.close();
 }
