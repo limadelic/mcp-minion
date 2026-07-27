@@ -7,6 +7,17 @@ import * as tools from "./tools.js";
 import * as argv from "./argv.js";
 import pkg from "../package.json" with { type: "json" };
 
+function expandEnv(value) {
+  if (typeof value !== "string") return value;
+  return value.replace(
+    /\$\{([^}]+)\}|\$([A-Za-z_][A-Za-z0-9_]*)/g,
+    (match, braced, unbraced) => {
+      const varName = braced || unbraced;
+      return process.env[varName] || "";
+    },
+  );
+}
+
 export async function run(
   server = argv.server,
   name = argv.name,
@@ -21,7 +32,8 @@ export async function run(
   const transport = config.url
     ? await createHttpTransport(config, client)
     : new StdioClientTransport({
-        ...config,
+        command: config.command,
+        args: config.args?.map(expandEnv) || [],
         env: process.env,
       });
 
@@ -34,24 +46,35 @@ export async function run(
   await client.close();
 }
 
-async function createHttpTransport(config, client) {
+async function createHttpTransport(
+  config,
+  client,
+) {
   const requestInit = {};
   if (config.headers) {
-    requestInit.headers = config.headers;
+    requestInit.headers = Object.fromEntries(
+      Object.entries(config.headers).map(
+        ([key, value]) => [key, expandEnv(value)],
+      ),
+    );
   }
 
-  const url = new URL(config.url);
-  const streamableTransport = new StreamableHTTPClientTransport(url, {
-    requestInit,
-  });
+  const url = new URL(expandEnv(config.url));
+  const streamableTransport =
+    new StreamableHTTPClientTransport(url, {
+      requestInit,
+    });
 
   try {
     await client.connect(streamableTransport);
     return streamableTransport;
   } catch {
-    const sseTransport = new SSEClientTransport(url, {
-      requestInit,
-    });
+    const sseTransport = new SSEClientTransport(
+      url,
+      {
+        requestInit,
+      },
+    );
     await client.connect(sseTransport);
     return sseTransport;
   }
